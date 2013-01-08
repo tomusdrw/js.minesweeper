@@ -1,12 +1,27 @@
-
-
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
 
-
-
-
+body {
+	padding: 60px 0;
+}
+.game {
+	margin: 1em auto;
+	box-shadow: 0 0 10px #abf;
+}
+.game-canvas {
+	clear: both;
+	width: 255px;
+	margin: 0 auto;
+	border: 2px ridge #ddd;
+}
+.game-canvas .cell {
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+	margin: 1px;
+	background: #ddd;
+}
 
 
 

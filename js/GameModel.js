@@ -5,7 +5,8 @@ define(['backbone', '_', 'CellModel'], function(Backbone, _, CellModel) {
 			size : {
 				x : 10,
 				y : 10
-			}
+			},
+			gameState : 'over'
 		},
 
 		cells : null,
@@ -35,6 +36,10 @@ define(['backbone', '_', 'CellModel'], function(Backbone, _, CellModel) {
 				});
 			});
 			return cells;
+		},
+
+		getCells : function() {
+			return this.cells;
 		}
 	});
 

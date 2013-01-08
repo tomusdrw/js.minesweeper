@@ -11,7 +11,7 @@ body {
 }
 .game-canvas {
 	clear: both;
-	width: 255px;
+	width: 260px;
 	margin: 0 auto;
 	border: 2px ridge #ddd;
 }

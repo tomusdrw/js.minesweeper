@@ -43,6 +43,49 @@ define(['_', 'GameModel', 'CellModel'], function(_, GameModel, CellModel){
 				// then
 				expect(cut.get('gameState')).to.be.equal('started');
 			});
+
+			it('should initialize mines randomly', function() {
+				// given
+				cut.set('mines', 2);
+				cut.set('size', { x: 2, y: 2});
+
+				// when
+				cut.start();
+				var cells = cut.getCells();
+				var withMines = _.filter(cells, function(cell) {
+					return cell.hasMine();
+				});
+
+				// then
+				expect(withMines).to.have.length(2);
+			});
+
+			it('should calculate mines in neigbourhood', function() {
+				// given
+				cut.set('size', { x: 3, y : 3 });
+				var cells = cut.getCells();
+	
+				// when
+				cells[[0,0]].setMine();
+				cells[[2,0]].setMine();
+				cells[[2,1]].setMine();
+				cells[[2,2]].setMine();
+
+				cut.calculateMinesInNeighbourhood();
+
+				// then
+				expect(cells[[0,0]].getMines()).to.be.equal(0);
+				expect(cells[[1,0]].getMines()).to.be.equal(3);
+				expect(cells[[2,0]].getMines()).to.be.equal(1);
+
+				expect(cells[[0,1]].getMines()).to.be.equal(1);
+				expect(cells[[1,1]].getMines()).to.be.equal(4);
+				expect(cells[[2,1]].getMines()).to.be.equal(2);
+
+				expect(cells[[0,2]].getMines()).to.be.equal(0);
+				expect(cells[[1,2]].getMines()).to.be.equal(2);
+				expect(cells[[2,2]].getMines()).to.be.equal(1);
+			});
 		});
 
 		describe("creating CellModels (createCellModels)", function() {

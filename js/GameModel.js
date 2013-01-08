@@ -27,9 +27,52 @@ define(['backbone', '_', 'CellModel'], function(Backbone, _, CellModel) {
 
 		start : function () {
 			this.set('gameState', 'started');
+			this.set('minesLeft', this.get('mines'));
+			// Initialize mines
+			this.seedMines(this.get('mines'));
+			this.calculateMinesInNeighbourhood();
 		},
 
-		
+		getNumberOfMines : function(x, y) {
+			var size = this.get('size');
+			var xRange = _.range(Math.max(0, x-1), Math.min(size.x, x+2));
+			var yRange = _.range(Math.max(0, y-1), Math.min(size.y, y+2));
+			
+			var cells = this.getCells();
+			var mines = 0;
+			_.each(xRange, function(x2) {
+				_.each(yRange, function(y2) {
+					if (x2 !== x || y2 !== y) {
+						if (cells[[x2, y2]].hasMine()) {
+							mines++;
+						}
+					}
+				});
+			});
+
+			return mines;
+		},
+
+		calculateMinesInNeighbourhood : function() {
+			var size = this.get('size');
+			var cells = this.getCells();
+			_.each(_.range(0, size.x), function(x) {
+				_.each(_.range(0, size.y), function(y) {
+					var mines = this.getNumberOfMines(x, y);
+					cells[[x, y]].set('mines', mines);
+				}, this);
+			}, this);
+		},
+
+		seedMines : function(mines) {
+			var cells = _.values(this.getCells());
+			_.chain(cells).
+				shuffle().
+				first(mines).
+				each(function(cell) {
+					cell.setMine();
+				});
+		},
 		
 		/**
 		 * This function gets size object ( { x: 10, y: 10} ) and returns

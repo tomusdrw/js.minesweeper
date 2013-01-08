@@ -44,6 +44,19 @@ define(['_', 'CellModel'], function(_, CellModel) {
 			});
 		});
 
+		describe('Mines', function() {
+			it('should seed mine to cell', function() {
+				// given
+				expect(cut.hasMine()).to.be.false;
+
+				// when
+				cut.setMine();
+
+				// then
+				expect(cut.hasMine()).to.be.true;
+			});
+		});
+
 		describe('State', function() {
 			it('should allow to open closed cell', function() {
 				// given

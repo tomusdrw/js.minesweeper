@@ -36,6 +36,10 @@ define(['backbone'], function(Backbone) {
 			this.set('state', this.STATE.MARKED);
 		},
 
+		setMine : function() {
+			this.set('hasMine', true);
+		},
+
 		isClosed : function() {
 			return this.getState() === this.STATE.CLOSED;
 		},

@@ -7,7 +7,47 @@ define(['backbone'], function(Backbone) {
 			MINE : 'X'
 		},
 		defaults : {
-			state : ''
+			state : '',
+			hasMine : false,
+			mines : 0
+		},
+
+		open : function() {
+			if (!this.isClosed()) {
+				return;
+			}
+			// Do not open marked cells.
+			if (this.getState() === this.STATE.MARKED) {
+				return;
+			}
+			var newState;
+			if (this.hasMine()) {
+				newState = this.STATE.MINE;
+			} else {
+				newState = this.STATE.OPEN;
+			}
+			this.set('state', newState);
+		},
+
+		mark : function() {
+			if (!this.isClosed()) {
+				return;
+			}
+			this.set('state', this.STATE.MARKED);
+		},
+
+		isClosed : function() {
+			return this.getState() === this.STATE.CLOSED;
+		},
+
+		getMines : function () {
+			return this.get('mines');
+		},
+		getState : function () {
+			return this.get('state');
+		},
+		hasMine : function () {
+			return this.get('hasMine');
 		}
 	});
 

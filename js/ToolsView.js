@@ -24,12 +24,12 @@ define(['_', 'backbone'], function(_, Backbone) {
 		},
 
 		renderRestart : function() {
-			var state = this.model.get('gameState');
+			var state = this.model.getGameState();
 			this.$('.restart-button').html(this.getButton(state));
 		},
 
 		renderMines : function() {
-			var minesLeft = this.model.get('minesLeft');
+			var minesLeft = this.model.getMinesLeft();
 			this.$('.mines-left').text(minesLeft);
 		}
 	});

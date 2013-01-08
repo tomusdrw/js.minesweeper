@@ -10,13 +10,13 @@ define(['backbone', '_'], function(Backbone, _) {
 		},
 
 		render : function () {
-			var state = this.model.get('state');
+			var state = this.model.getState();
 			var STATE = this.model.STATE;
 
 			this.$el.addClass('open');
 			var html = '';
 			if (state == STATE.OPEN) {
-				var neighs = this.model.get('neighbours');
+				var neighs = this.model.getMines();
 				if (neighs > 0) {
 					html = neighs;
 				}

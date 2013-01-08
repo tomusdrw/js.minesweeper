@@ -12,10 +12,24 @@ define(['backbone', '_', 'CellModel'], function(Backbone, _, CellModel) {
 		cells : null,
 		
 		initialize : function () {
+			this.on('change:size', this.initModel);
+			this.initModel();
+		},
+
+		initModel : function() {
 			var size = this.get('size');
 
 			this.cells = this.createCellModels(size);
+			_.each(this.cells, function(cell) {
+				cell.on('change:state', this.calculateState);
+			}, this);
 		},
+
+		start : function () {
+			this.set('gameState', 'started');
+		},
+
+		
 		
 		/**
 		 * This function gets size object ( { x: 10, y: 10} ) and returns
@@ -40,6 +54,12 @@ define(['backbone', '_', 'CellModel'], function(Backbone, _, CellModel) {
 
 		getCells : function() {
 			return this.cells;
+		},
+		getGameState : function() {
+			return this.get('gameState');
+		},
+		getMinesLeft : function() {
+			return this.get('minesLeft');
 		}
 	});
 

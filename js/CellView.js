@@ -3,10 +3,16 @@ define(['backbone', '_'], function(Backbone, _) {
 		tagName : 'button',
 		tIcon : _.template('<i class="icon-<%= icon %>"></i>'),
 
-		initialize : function () {
+		events : {
+			'click' : 'cellOpen',
+			'contextmenu' : 'cellMark'
+		},
+
+		initialize : function (options) {
+			this.game = options.game;
 			this.$el.addClass('cell');
 
-			this.model.on('change:state', this.render);
+			this.model.on('change:state', this.render, this);
 		},
 
 		render : function () {
@@ -21,14 +27,29 @@ define(['backbone', '_'], function(Backbone, _) {
 					html = neighs;
 				}
 			} else if (state == STATE.MARKED) {
-				html = this.tIcon('flag');
+				html = this.tIcon({icon : 'flag'});
+				this.$el.removeClass('open');
 			} else if (state == STATE.MINE) {
-				html = this.tIcon('asterisk');
+				html = this.tIcon({icon : 'asterisk'});
 			} else {
 				this.$el.removeClass('open');
 			}
 			
 			this.$el.html(html);
+		},
+
+		cellOpen : function(ev) {
+			if (this.game.isOver()) {
+				return;
+			}
+			this.model.open();
+		},
+		cellMark : function(ev) {
+			if (this.game.isOver()) {
+				return;
+			}
+			this.model.mark();
+			ev.preventDefault();
 		}
 	});
 

@@ -44,6 +44,23 @@ define(['_', 'CellModel'], function(_, CellModel) {
 			});
 		});
 
+		describe('Reset', function() {
+			it('should reset state and mines', function() {
+				// given
+				cut.setMine();
+				cut.open();
+				cut.set('mines', 5);
+
+				// when
+				cut.reset();
+
+				// then
+				expect(cut.hasMine()).to.be.false;
+				expect(cut.isClosed()).to.be.true;
+				expect(cut.getMines()).to.equal(0);
+			});
+		});
+
 		describe('Mines', function() {
 			it('should seed mine to cell', function() {
 				// given

@@ -22,6 +22,9 @@ body {
 	margin: 1px;
 	background: #ddd;
 }
+.game-canvas .cell.open {
+	background: #fff;
+}
 
 
 

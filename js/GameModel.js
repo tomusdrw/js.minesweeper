@@ -21,14 +21,30 @@ define(['backbone', '_', 'CellModel'], function(Backbone, _, CellModel) {
 
 			this.cells = this.createCellModels(size);
 			_.each(this.cells, function(cell) {
-				cell.on('change:state', this.calculateState);
+				cell.on('change:state', this.calculateState, this);
 			}, this);
+		},
+
+		calculateState : function () {
+			var marked = _.chain(this.getCells()).values().filter(function(cell) {
+				return cell.getState() === cell.STATE.MARKED;
+			}).value().length;
+			this.set('minesLeft', this.get('mines') - marked);
+			//check if there was some mine
+			var mine = _.chain(this.getCells()).values().find(function(cell) {
+				return cell.getState() === cell.STATE.MINE;
+			}).value();
+			if (mine) {
+				this.set('gameState', 'over');
+			}
 		},
 
 		start : function () {
 			this.set('gameState', 'started');
 			this.set('minesLeft', this.get('mines'));
 			// Initialize mines
+			// reset cells
+			_.invoke(_.values(this.getCells()), 'reset');
 			this.seedMines(this.get('mines'));
 			this.calculateMinesInNeighbourhood();
 		},
@@ -103,6 +119,9 @@ define(['backbone', '_', 'CellModel'], function(Backbone, _, CellModel) {
 		},
 		getMinesLeft : function() {
 			return this.get('minesLeft');
+		},
+		isOver : function() {
+			return this.getGameState() == 'over';
 		}
 	});
 

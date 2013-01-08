@@ -2,14 +2,18 @@ define(['_', 'backbone'], function(_, Backbone) {
 	var ToolsView = Backbone.View.extend({
 
 		el: '.game-tools',
+		events : {
+			'click .restart-button' : 'restartAction'
+		},
+
 		buttons : {
-			'started' : '<i class="icon icon-reload"></i> Restart',
+			'started' : '<i class="icon icon-refresh"></i> Restart',
 			'over' : '<i class="icon icon-play"></i> Start',
 		},
 
 		initialize : function() {
-			this.model.on('change:gameState', this.renderRestart);
-			this.model.on('change:minesLeft', this.renderMines);
+			this.model.on('change:gameState', this.renderRestart, this);
+			this.model.on('change:minesLeft', this.renderMines, this);
 
 			this.renderRestart();
 			this.renderMines();
@@ -31,7 +35,11 @@ define(['_', 'backbone'], function(_, Backbone) {
 		renderMines : function() {
 			var minesLeft = this.model.getMinesLeft();
 			this.$('.mines-left').text(minesLeft);
-		}
+		},
+
+		restartAction : function() {
+			this.model.start();
+		},
 	});
 
 

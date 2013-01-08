@@ -35,7 +35,9 @@ define(['backbone'], function(Backbone) {
 			}
 			this.set('state', this.STATE.MARKED);
 		},
-
+		reset : function() {
+			this.set(this.defaults);
+		},
 		setMine : function() {
 			this.set('hasMine', true);
 		},

@@ -87,6 +87,72 @@ define(['_', 'GameModel', 'CellModel'], function(_, GameModel, CellModel){
 				expect(cells[[2,2]].getMines()).to.be.equal(1);
 			});
 		});
+		
+		describe("Game step methods", function() {
+		
+			beforeEach(function () {
+				cut.set('size', {
+					x: 3,
+					y: 3
+				});
+			});
+			it('should calculate marked cells when there is none', function() {
+				// given
+				var cells = cut.getCells();
+				
+				// when
+				
+				// then
+				expect(cut.getNoOfMarkedCells()).to.equal(0);
+			});
+			
+			it('should calculate marked cells when there is none', function() {
+				// given
+				var cells = cut.getCells();
+				
+				// when
+				cells[[1, 1]].mark();
+				
+				// then
+				expect(cut.getNoOfMarkedCells()).to.equal(1);
+			});
+		
+			it('should calculate number of marked cells', function() {
+				// given
+				var cells = cut.getCells();
+				
+				// when
+				cells[[0, 0]].mark();
+				cells[[0, 1]].mark();
+				cells[[1, 1]].mark();
+				
+				// then
+				expect(cut.getNoOfMarkedCells()).to.equal(3);
+			});
+			
+			it('should return false at the beggining', function () {
+				// given
+
+				// when
+				var over = cut.isGameOver();
+				
+				// then
+				expect(over).to.be.false;
+			});
+			
+			it('should return true when cell is opened on mine', function () {
+				// given
+				var cell = cut.getCells();
+				cell[[0,0]].setMine();
+				cell[[0,0]].open();
+				
+				// when
+				var over = cut.isGameOver();
+				
+				// then
+				expect(over).to.be.true;
+			});
+		});
 
 		describe("creating CellModels (createCellModels)", function() {
 			it('should create empty object', function() {

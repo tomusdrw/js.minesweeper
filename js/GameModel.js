@@ -25,18 +25,52 @@ define(['backbone', '_', 'CellModel'], function(Backbone, _, CellModel) {
 			}, this);
 		},
 
-		calculateState : function () {
-			var marked = _.chain(this.getCells()).values().filter(function(cell) {
-				return cell.getState() === cell.STATE.MARKED;
-			}).value().length;
+		calculateState : function (cell) {
+			// calculate mines left
+			var marked = this.getNoOfMarkedCells();
 			this.set('minesLeft', this.get('mines') - marked);
-			//check if there was some mine
+			
+			// check if there was some mine
+			if (this.isGameOver()) {
+				this.set('gameState', 'over');
+			}
+			
+			// do a cascade open
+			if (cell.getState() === cell.STATE.OPEN &&
+				cell.getMines() === 0
+			    ) {
+				var position = cell.get('position');
+				this.cascade(position.x, position.y, {});
+			}
+		},
+		
+		cascade : function (x, y, visited) {
+			var neighs = this.getNeighbourhood(x, y);
+			var cells = this.getCells();
+			_.each(neighs, function(pos) {
+				if (!visited[pos]) {
+					cells[pos].open();
+					visited[pos] = true;
+					if (cells[pos].getMines() === 0) {
+						this.cascade(pos[0], pos[1], visited);
+					}
+				}
+			}, this);
+		},
+		
+		isGameOver : function () {
 			var mine = _.chain(this.getCells()).values().find(function(cell) {
 				return cell.getState() === cell.STATE.MINE;
 			}).value();
-			if (mine) {
-				this.set('gameState', 'over');
-			}
+			return !!mine;
+		},
+		
+		getNoOfMarkedCells : function () {
+			var marked = _.chain(this.getCells()).values().filter(function(cell) {
+				return cell.getState() === cell.STATE.MARKED;
+			}).value().length;
+			
+			return marked;
 		},
 
 		start : function () {
@@ -48,22 +82,30 @@ define(['backbone', '_', 'CellModel'], function(Backbone, _, CellModel) {
 			this.seedMines(this.get('mines'));
 			this.calculateMinesInNeighbourhood();
 		},
-
-		getNumberOfMines : function(x, y) {
+		
+		getNeighbourhood : function (x, y) {
 			var size = this.get('size');
 			var xRange = _.range(Math.max(0, x-1), Math.min(size.x, x+2));
 			var yRange = _.range(Math.max(0, y-1), Math.min(size.y, y+2));
 			
-			var cells = this.getCells();
-			var mines = 0;
+			var neighs = [];
 			_.each(xRange, function(x2) {
 				_.each(yRange, function(y2) {
 					if (x2 !== x || y2 !== y) {
-						if (cells[[x2, y2]].hasMine()) {
-							mines++;
-						}
+						neighs.push([x2, y2]);
 					}
 				});
+			});
+			return neighs;
+		},
+		
+		getNumberOfMines : function(x, y) {
+			var cells = this.getCells();
+			var mines = 0;
+			_.each(this.getNeighbourhood(x, y), function(pos) {
+				if (cells[pos].hasMine()) {
+					mines++;
+				}
 			});
 
 			return mines;
@@ -105,7 +147,12 @@ define(['backbone', '_', 'CellModel'], function(Backbone, _, CellModel) {
 			var cells = {};
 			_.range(0, size.x).forEach(function(x) {
 				_.range(0, size.y).forEach(function(y) {
-					cells[[x, y]] = new CellModel();
+					cells[[x, y]] = new CellModel({
+						position: {
+							x: x,
+							y: y
+						}
+					});
 				});
 			});
 			return cells;

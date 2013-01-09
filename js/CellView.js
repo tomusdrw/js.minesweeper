@@ -19,7 +19,7 @@ define(['backbone', '_'], function(Backbone, _) {
 			var state = this.model.getState();
 			var STATE = this.model.STATE;
 
-			this.$el.addClass('open');
+			this.$el.addClass('open').removeClass('mine');
 			var html = '';
 			if (state == STATE.OPEN) {
 				var neighs = this.model.getMines();
@@ -30,6 +30,7 @@ define(['backbone', '_'], function(Backbone, _) {
 				html = this.tIcon({icon : 'flag'});
 				this.$el.removeClass('open');
 			} else if (state == STATE.MINE) {
+				this.$el.addClass('mine');
 				html = this.tIcon({icon : 'asterisk'});
 			} else {
 				this.$el.removeClass('open');

@@ -153,6 +153,43 @@ define(['_', 'GameModel', 'CellModel'], function(_, GameModel, CellModel){
 				expect(over).to.be.true;
 			});
 		});
+		
+		describe("Neighbourhood", function() {
+		
+		});
+		
+		describe("Cascade", function() {
+			it('should cascade open empty cells', function() {
+				// given
+				cut.set('size', { x: 3, y : 3});
+				var cells = cut.getCells();
+				
+				// when
+				cells[[0, 0]].set('mines', 0);
+				cells[[0, 1]].set('mines', 0);
+				cells[[0, 2]].set('mines', 0);
+				cells[[1, 0]].set('mines', 0);
+				cells[[1, 1]].set('mines', 2);
+				cells[[1, 2]].set('mines', 3);
+				cells[[2, 0]].set('mines', 1);
+				cells[[2, 1]].set('mines', 1);
+				
+				cut.cascade(0, 0, {});
+				
+				// then
+				expect(cells[[0, 0]].isClosed()).to.be.false;
+				expect(cells[[0, 1]].isClosed()).to.be.false;
+				expect(cells[[0, 2]].isClosed()).to.be.false;
+				expect(cells[[1, 0]].isClosed()).to.be.false;
+				expect(cells[[1, 1]].isClosed()).to.be.false;
+				expect(cells[[1, 2]].isClosed()).to.be.false;
+				expect(cells[[2, 0]].isClosed()).to.be.false;
+				expect(cells[[2, 1]].isClosed()).to.be.false;
+	
+				expect(cells[[2, 2]].isClosed()).to.be.true;
+			});
+		
+		});
 
 		describe("creating CellModels (createCellModels)", function() {
 			it('should create empty object', function() {

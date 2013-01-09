@@ -33,7 +33,7 @@ require(['GameModel', 'GameView', 'ToolsView',], function (GameModel, GameView, 
 			x : 10,
 			y: 10
 		},
-		mines: 25
+		mines: 20
 	};
 
 	var gameModel = new GameModel(model);

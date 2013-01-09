@@ -25,6 +25,9 @@ body {
 .game-canvas .cell.open {
 	background: #fff;
 }
+.game-canvas .cell.mine {
+	background: #f44;
+}
 
 
 

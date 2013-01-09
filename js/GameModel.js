@@ -1,5 +1,8 @@
 define(['backbone', '_', 'CellModel'], function(Backbone, _, CellModel) {
 	var GameModel = Backbone.Model.extend({
+		/**
+		 * This section provides default values for properties to all instances.
+		 */
 		defaults : {
 			mines : 25,
 			size : {
@@ -8,11 +11,15 @@ define(['backbone', '_', 'CellModel'], function(Backbone, _, CellModel) {
 			},
 			gameState : 'over'
 		},
-
+		/**
+		 * I like to explicilty say that class will have some variable inside
+		 */
 		cells : null,
 		
 		initialize : function () {
-			this.on('change:size', this.initModel);
+			// When we change size we have to reinitialize model.
+			this.on('change:size', this.initModel, this);
+			// We also have to do it at start
 			this.initModel();
 		},
 
@@ -21,6 +28,7 @@ define(['backbone', '_', 'CellModel'], function(Backbone, _, CellModel) {
 
 			this.cells = this.createCellModels(size);
 			_.each(this.cells, function(cell) {
+				// When cell state changes we need to recalculate some things.
 				cell.on('change:state', this.calculateState, this);
 			}, this);
 		},
@@ -40,21 +48,20 @@ define(['backbone', '_', 'CellModel'], function(Backbone, _, CellModel) {
 				cell.getMines() === 0
 			    ) {
 				var position = cell.get('position');
-				this.cascade(position.x, position.y, {});
+				this.cascade(position.x, position.y);
 			}
 		},
 		
-		cascade : function (x, y, visited) {
+		/**
+		 * This method does cascade opening. When you click
+		 * on empty cell, all adjacent cells should be opened.
+		 */
+		cascade : function (x, y) {
 			var neighs = this.getNeighbourhood(x, y);
 			var cells = this.getCells();
 			_.each(neighs, function(pos) {
-				if (!visited[pos]) {
-					cells[pos].open();
-					visited[pos] = true;
-					if (cells[pos].getMines() === 0) {
-						this.cascade(pos[0], pos[1], visited);
-					}
-				}
+				// this will trigger next cascade
+				cells[pos].open();
 			}, this);
 		},
 		

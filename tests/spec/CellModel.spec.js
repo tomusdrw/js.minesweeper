@@ -1,141 +1,140 @@
 define(['_', 'CellModel'], function(_, CellModel) {
-	describe('CellModel', function() {
-		var cut = null;
+  describe('CellModel', function() {
+    var cut = null;
 
-		beforeEach(function() {
-			cut = new CellModel();
-		});
+    beforeEach(function() {
+      cut = new CellModel();
+    });
 
-		describe('Getters', function(){
-			
-			it('should return number of mines', function() {
-				// given
-				cut.set('mines', 5);
-				
-				// when
-				var mines = cut.getMines();
-				
-				// then
-				expect(mines).to.be.equal(5);
-			});
+    describe('Getters', function() {
 
-			it('should return state', function() {
-				// given
-				cut.set('state', cut.STATE.MINE);
-				
-				// when
-				var state = cut.getState();
-				
-				// then
-				expect(state).to.be.equal(cut.STATE.MINE);
-			
-			});
+      it('should return number of mines', function() {
+        // given
+        cut.set('mines', 5);
 
-			it('should return if it has mine', function() {
-				// given
-				cut.set('hasMine', true);
-				
-				// when
-				var hasMine = cut.hasMine();
-				
-				// then
-				expect(hasMine).to.be.true;
+        // when
+        var mines = cut.getMines();
 
-			});
-		});
+        // then
+        expect(mines).to.be.equal(5);
+      });
 
-		describe('Reset', function() {
-			it('should reset state and mines', function() {
-				// given
-				cut.setMine();
-				cut.open();
-				cut.set('mines', 5);
+      it('should return state', function() {
+        // given
+        cut.set('state', cut.STATE.MINE);
 
-				// when
-				cut.reset();
+        // when
+        var state = cut.getState();
 
-				// then
-				expect(cut.hasMine()).to.be.false;
-				expect(cut.isClosed()).to.be.true;
-				expect(cut.getMines()).to.equal(0);
-			});
-		});
+        // then
+        expect(state).to.be.equal(cut.STATE.MINE);
 
-		describe('Mines', function() {
-			it('should seed mine to cell', function() {
-				// given
-				expect(cut.hasMine()).to.be.false;
+      });
 
-				// when
-				cut.setMine();
+      it('should return if it has mine', function() {
+        // given
+        cut.set('hasMine', true);
 
-				// then
-				expect(cut.hasMine()).to.be.true;
-			});
-		});
+        // when
+        var hasMine = cut.hasMine();
 
-		describe('State', function() {
-			it('should allow to open closed cell', function() {
-				// given
-				expect(cut.getState()).to.be.equal(cut.STATE.CLOSED);
+        // then
+        expect(hasMine).to.equal(true);
 
-				// when
-				cut.open();
-				
-				
-				// then
-				expect(cut.getState()).to.be.equal(cut.STATE.OPEN);
-			});
-			it('should allow to mark closed cell', function() {
-				// given
-				expect(cut.getState()).to.be.equal(cut.STATE.CLOSED);
+      });
+    });
 
-				// when
-				cut.mark();
-				
-				// then
-				expect(cut.getState()).to.be.equal(cut.STATE.MARKED);
-			});
+    describe('Reset', function() {
+      it('should reset state and mines', function() {
+        // given
+        cut.setMine();
+        cut.open();
+        cut.set('mines', 5);
 
-			it('should not allow to mark opened cell', function() {
-				// given
-				cut.open();
+        // when
+        cut.reset();
 
-				// when
-				cut.mark();
-				
-				// then
-				expect(cut.getState()).to.be.equal(cut.STATE.OPEN);
-			});
+        // then
+        expect(cut.hasMine()).to.equal(false);
+        expect(cut.isClosed()).to.equal(true);
+        expect(cut.getMines()).to.equal(0);
+      });
+    });
 
-			it('should change state to MINE if hasMine and opened', function() {
-				// given
-				cut.set('hasMine', true);
+    describe('Mines', function() {
+      it('should seed mine to cell', function() {
+        // given
+        expect(cut.hasMine()).to.equal(false);
 
-				// when
-				cut.open();
-				
-				// then
-				expect(cut.getState()).to.be.equal(cut.STATE.MINE);
-			});
+        // when
+        cut.setMine();
 
-			it('should not allow to open marked cell', function() {
-				// given
-				cut.mark();
+        // then
+        expect(cut.hasMine()).to.equal(true);
+      });
+    });
 
-				// when
-				cut.open();
-				
-				// then
-				expect(cut.getState()).to.be.equal(cut.STATE.MARKED);
-			});
+    describe('State', function() {
+      it('should allow to open closed cell', function() {
+        // given
+        expect(cut.getState()).to.be.equal(cut.STATE.CLOSED);
 
-			it('should return isClosed when closed', function() {
+        // when
+        cut.open();
 
-				// then
-				expect(cut.isClosed()).to.be.true;
-			});
-		});
-		
-	});
+        // then
+        expect(cut.getState()).to.be.equal(cut.STATE.OPEN);
+      });
+      it('should allow to mark closed cell', function() {
+        // given
+        expect(cut.getState()).to.be.equal(cut.STATE.CLOSED);
+
+        // when
+        cut.mark();
+
+        // then
+        expect(cut.getState()).to.be.equal(cut.STATE.MARKED);
+      });
+
+      it('should not allow to mark opened cell', function() {
+        // given
+        cut.open();
+
+        // when
+        cut.mark();
+
+        // then
+        expect(cut.getState()).to.be.equal(cut.STATE.OPEN);
+      });
+
+      it('should change state to MINE if hasMine and opened', function() {
+        // given
+        cut.set('hasMine', true);
+
+        // when
+        cut.open();
+
+        // then
+        expect(cut.getState()).to.be.equal(cut.STATE.MINE);
+      });
+
+      it('should not allow to open marked cell', function() {
+        // given
+        cut.mark();
+
+        // when
+        cut.open();
+
+        // then
+        expect(cut.getState()).to.be.equal(cut.STATE.MARKED);
+      });
+
+      it('should return isClosed when closed', function() {
+
+        // then
+        expect(cut.isClosed()).to.equal(true);
+      });
+    });
+
+  });
 });

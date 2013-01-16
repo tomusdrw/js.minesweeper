@@ -2,54 +2,49 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Minesweeper</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width">
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+	<!--<![endif]-->
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>Minesweeper</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width">
 
-        <link rel="stylesheet" href="css/bootstrap.css">
-        <link rel="stylesheet" href="css/bootstrap-responsive.css">
-        <link rel="stylesheet" href="css/font-awesome.css">
-        <link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/bootstrap.css">
+		<link rel="stylesheet" href="css/bootstrap-responsive.css">
+		<link rel="stylesheet" href="css/font-awesome.css">
+		<link rel="stylesheet" href="css/main.css">
 
-        <script src="js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
-    </head>
-    <body>
-        <!--[if lt IE 7]>
-            <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
-        <![endif]-->
+		<script src="js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+	</head>
+	<body>
+		<!--[if lt IE 7]>
+		<p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+		<![endif]-->
 
-        <header class="navbar navbar-inverse navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container">
-                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </a>
-                    <a class="brand" href="#">Minesweeper</a>
-                    <div class="nav-collapse collapse">
-                   </div><!--/.nav-collapse -->
-                </div>
-            </div>
-        </header>
+		<header class="navbar navbar-inverse navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a>
+					<a class="brand" href="#">Minesweeper</a>
+					<div class="nav-collapse collapse"></div>
+					<!--/.nav-collapse -->
+				</div>
+			</div>
+		</header>
 
-        <div class="container" role="main">
+		<div class="container" role="main">
 
-             <div class="row">
-                <div class="span4 offset4">
+			<div class="row">
+				<div class="span4 offset4">
 					<div class="game">
 						<div class="game-tools form-actions">
 							<div class="row-fluid">
-								<button class="span4 btn btn-primary restart-button">
-								</button>
+								<button class="span4 btn btn-primary restart-button"></button>
 								<div class="offset4 span4">
-									<span class="label pull-right">
-										<span class="mines-left">0</span> mines left.
-									</span>
+									<span class="label pull-right"> <span class="mines-left">0</span> mines left. </span>
 								</div>
 							</div>
 						</div>
@@ -58,21 +53,35 @@
 							<button class="cell btn"></button>
 						</div>
 					</div>
-                </div>
-            </div>
+				</div>
+			</div>
 
 			<div class="hero-unit">
-                <h1>Hello, stranger!</h1>
-                <p>Welcome to minesweeper experiment. Your task is to implement missing parts of code, make this game working and learn some Javascript!</p>
-            </div>
+				<h1>Hello, stranger!</h1>
+				<p>
+					Welcome to minesweeper experiment. Your task is to implement missing parts of code, make this game working and learn some Javascript!
+				</p>
+				<p>
+					Check <span class="label">GameModel.js</span> file and search for unimplemented methods. Please also <a href="tests/index.html">run tests</a> and see what aspects should be covered.
+				</p>
+				<p>
+					You can find some documentation here:
+				</p>
+				<ul>
+					<li><a href="http://underscorejs.org/">Underscore.js</a></li>
+					<li><a href="http://backbonejs.org/">Backbone</a></li>
+				</ul>
+			</div>
 
+			<hr>
+			<footer>
+				<p>
+					&copy; Blacksoft 2013
+				</p>
+			</footer>
+		</div>
+		<!-- /container -->
 
-            <hr>
-            <footer>
-                <p>&copy; Blacksoft 2013</p>
-            </footer>
-        </div> <!-- /container -->
-        
 		<script data-main="js/main.js" src="js/vendor/require-jquery.js"></script>
-    </body>
+	</body>
 </html>

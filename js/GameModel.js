@@ -75,19 +75,7 @@ define(['backbone', '_', 'CellModel'], function(Backbone, _, CellModel) {
      * @returns {Array} of neighbours
      */
     getNeighbourhood : function(x, y) {
-      var size = this.get('size');
-      var xRange = _.range(Math.max(0, x - 1), Math.min(size.x, x + 2));
-      var yRange = _.range(Math.max(0, y - 1), Math.min(size.y, y + 2));
-
-      var neighs = [];
-      _.each(xRange, function(x2) {
-        _.each(yRange, function(y2) {
-          if (x2 !== x || y2 !== y) {
-            neighs.push([x2, y2]);
-          }
-        });
-      });
-      return neighs;
+      throw new Error("Please implement me.");
     },
 
     /**
@@ -97,10 +85,7 @@ define(['backbone', '_', 'CellModel'], function(Backbone, _, CellModel) {
      *          STATE.MINE state)
      */
     isGameOver : function() {
-      var mine = _.chain(this.getCells()).values().find(function(cell) {
-        return cell.getState() === cell.STATE.MINE;
-      }).value();
-      return !!mine;
+      throw new Error("Please implement me.");
     },
 
     /**
@@ -109,11 +94,7 @@ define(['backbone', '_', 'CellModel'], function(Backbone, _, CellModel) {
      * @returns number of cells with state STATE.MARKED.
      */
     getNoOfMarkedCells : function() {
-      var marked = _.chain(this.getCells()).values().filter(function(cell) {
-        return cell.getState() === cell.STATE.MARKED;
-      }).value().length;
-
-      return marked;
+      throw new Error("Please implement me.");
     },
 
     /**
